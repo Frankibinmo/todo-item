@@ -16,7 +16,7 @@ const Todo = () => {
     const newTodo = {
       id: Date.now(),
       text: inputText,
-       isComplete: true,
+       isComplete: false,
     }
 
     setTodoList((prev) => [...prev, newTodo])
@@ -33,8 +33,9 @@ const Todo = () => {
       setTodoList((prevTodos) => {
         return prevTodos.map((Todo) => {
           if(Todo.id===id) {
-            return {...Todo, isComplete: !Todo.isComplete}
+            return {...Todo, isComplete :  !Todo.isComplete}
           }
+          return Todo;
         })
       })
     }
