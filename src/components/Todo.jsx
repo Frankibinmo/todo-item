@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import TodoItems from './TodoItems';
 
 const Todo = () => {
@@ -16,7 +16,7 @@ const Todo = () => {
     const newTodo = {
       id: Date.now(),
       text: inputText,
-       isComplete: false,
+       isComplete: true,
     }
 
     setTodoList((prev) => [...prev, newTodo])
@@ -25,10 +25,24 @@ const Todo = () => {
 
     const deleteTodo = (id) => {
        setTodoList((prevTodos) => {
-        return prevTodos.filter((todo) => todo.id===id)
+        return prevTodos.filter((todo) => todo.id!==id)
        })
     }
 
+    const toggle = (id) =>{
+      setTodoList((prevTodos) => {
+        return prevTodos.map((Todo) => {
+          if(Todo.id===id) {
+            return {...Todo, isComplete: !Todo.isComplete}
+          }
+        })
+      })
+    }
+
+    useEffect(() => {
+      console.log(todolist)
+
+    }, [todolist])
 
 
   return (
@@ -63,7 +77,7 @@ const Todo = () => {
 
         {todolist.map((item, index) => {
             return <TodoItems key={index} text={item.text} id={item.id}
-             isComplete={item.isComplete} deleteTodo={deleteTodo}/>
+             isComplete={item.isComplete} deleteTodo={deleteTodo} toggle={toggle}/>
         })}
         
       </div>

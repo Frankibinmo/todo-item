@@ -1,11 +1,11 @@
 import React from 'react'
 
 
-const TodoItems = ({text, id, isComplete, deleteTodo}) => {
+const TodoItems = ({text, id, isComplete, deleteTodo, toggle}) => {
   return (
     <div className="flex items-center my-3 gap-2  ">
 
-      <div className="flex items-center gap-2 my-1 ">
+      <div onClick={()=> toggle(id)} className="flex items-center gap-2 my-1 cursor-pointer ">
         <img
           className="w-5 cursor-pointer"
           src="/assets/tick_icons.png"
