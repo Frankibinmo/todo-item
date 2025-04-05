@@ -1,50 +1,48 @@
-import React, { useEffect, useRef, useState } from 'react'
-import TodoItems from './TodoItems';
+import React, { useEffect, useRef, useState } from "react";
+import TodoItems from "./TodoItems";
 
 const Todo = () => {
+  const inputeRef = useRef();
 
-  const inputeRef = useRef()
-
-  const [todolist, setTodoList] = useState([])
+  const [todolist, setTodoList] = useState(localStorage.getItem("todo")?
+JSON.parse(localStorage.getItem("todo")) :[]);
 
   const add = () => {
     const inputText = inputeRef.current.value.trim();
 
-    if(inputText ==="") {
+    if (inputText === "") {
       return null;
     }
     const newTodo = {
       id: Date.now(),
       text: inputText,
-       isComplete: false,
-    }
+      isComplete: false,
+    };
 
-    setTodoList((prev) => [...prev, newTodo])
-    inputeRef.current.value= '';
-  }
+    setTodoList((prev) => [...prev, newTodo]);
+    inputeRef.current.value = "";
+  };
 
-    const deleteTodo = (id) => {
-       setTodoList((prevTodos) => {
-        return prevTodos.filter((todo) => todo.id!==id)
-       })
-    }
+  const deleteTodo = (id) => {
+    setTodoList((prevTodos) => {
+      return prevTodos.filter((todo) => todo.id !== id);
+    });
+  };
 
-    const toggle = (id) =>{
-      setTodoList((prevTodos) => {
-        return prevTodos.map((Todo) => {
-          if(Todo.id===id) {
-            return {...Todo, isComplete :  !Todo.isComplete}
-          }
-          return Todo;
-        })
-      })
-    }
+  const toggle = (id) => {
+    setTodoList((prevTodos) => {
+      return prevTodos.map((Todo) => {
+        if (Todo.id === id) {
+          return { ...Todo, isComplete: !Todo.isComplete };
+        }
+        return Todo;
+      });
+    });
+  };
 
-    useEffect(() => {
-      console.log(todolist)
-
-    }, [todolist])
-
+  useEffect(() => {
+    localStorage.setItem("todo", JSON.stringify(todolist))
+  }, [todolist]);
 
   return (
     <div className="bg-white place-self-center w-11/12 max-w-md flex flex-col p-7 min-h-[550px] rounded-xl">
@@ -52,7 +50,7 @@ const Todo = () => {
 
       <div className="flex items-center mt-7 gap-2">
         <img className="w-12" src="/assets/todo_icon.png" alt="" />
-        <h1 className="text-3xl font-bold ">To-do-List</h1>
+        <h1 className="  text-3xl font-bold ">To-do-List</h1>
       </div>
 
       {/* inpute box */}
@@ -75,17 +73,21 @@ const Todo = () => {
 
       {/*  Todo-list */}
       <div>
-
         {todolist.map((item, index) => {
-            return <TodoItems key={index} text={item.text} id={item.id}
-             isComplete={item.isComplete} deleteTodo={deleteTodo} toggle={toggle}/>
+          return (
+            <TodoItems
+              key={index}
+              text={item.text}
+              id={item.id}
+              isComplete={item.isComplete}
+              deleteTodo={deleteTodo}
+              toggle={toggle}
+            />
+          );
         })}
-        
       </div>
     </div>
   );
-}
+};
 
-export default Todo
-
-
+export default Todo;
